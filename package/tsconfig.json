@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "typeRoots": ["@types", "./node_modules/@types"],
+    "module": "es6",
+    "target": "es6",
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "baseUrl": "./",
+    "declaration": true,
+    "esModuleInterop": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "test/**/*"]
+}
