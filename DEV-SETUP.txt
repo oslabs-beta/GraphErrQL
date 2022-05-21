@@ -1,0 +1,26 @@
+Add 'Host' App to top-level project directory on your local machine. This will be included in .gitignore, so we each need to add the repo and make a few changes to it separately in order to test our app.
+
+
+1. From your local machine at root level of project, perform following:
+
+"git clone https://github.com/clintonwoo/hackernews-react-graphql.git"
+
+
+2. Once cloned locally, navigate to hackernews-react-graphql/server/server.ts
+
+
+3. Add following changes to this file:
+
+- Add import of following function on line 13:
+/**
+import invokeGraphERRQL from './../../package/src/index';
+**/
+
+- At line 191, add following middleware as follows:
+/**
+    //for requests to /grapherrql, go get grapherrql html and return on req
+    expressServer.get('/grapherrql', invokeGraphERRQL({
+      endpoint: '/graphql/'
+    })),
+**/
+

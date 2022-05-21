@@ -1,5 +1,5 @@
 export const renderHTML = (options) => {
-    return `
+  return `
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -12,5 +12,5 @@ export const renderHTML = (options) => {
         <h1>hey</h1>
     </body>
     </html>
-    `
-}
+    `;
+};
