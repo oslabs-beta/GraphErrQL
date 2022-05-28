@@ -10,6 +10,13 @@ export const renderHTML = (options) => {
     </head>
     <body>
         <h1>hey</h1>
+        <div id="root"></div>
+        <script type="text/javascript">
+        window.addEventListener('load', function (event) {
+            const root = document.getElementById('root');
+            GraphERRQL.init(root);
+        }
+        </script>
     </body>
     </html>
     `;
