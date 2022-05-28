@@ -14,8 +14,9 @@ export const renderHTML = (options) => {
         <script type="text/javascript">
         window.addEventListener('load', function (event) {
             const root = document.getElementById('root');
-            GraphERRQL.init(root);
-        }
+            console.log(window.GraphERRQL)
+            window.GraphERRQL.init(root);
+        })
         </script>
     </body>
     </html>
