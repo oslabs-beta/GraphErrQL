@@ -34,6 +34,7 @@
     "@babel/preset-react": "^7.17.12",
     "babel-loader": "^8.2.5",
     "global": "^4.4.0",
+    "process": "^0.11.10",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "ts-loader": "^9.3.0"

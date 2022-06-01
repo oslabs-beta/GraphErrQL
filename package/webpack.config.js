@@ -4,12 +4,17 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = {
   mode: 'production',
   target: 'web',
-  entry: ['./src/middleware.js', './src/index.jsx'],
+  entry: {
+    middleware: './src/middleware.js',
+    index: './src/index.jsx',
+  },
   output: {
     path: path.resolve(__dirname, './dist'),
-    filename: 'middleware.d.js',
-    library: { name: 'grapherrqlLibrary', type: 'commonjs' },
-    // libraryTarget: 'umd', //universal export, will allow for reference to dist script as var, amd, or common.js syntax
+    filename: 'grapherrqlLibrary.[name].js',
+    library: {
+      name: ['grapherrqlLibrary', '[name]'],
+      type: 'umd',
+    },
     globalObject: 'this', //To make the library build available on both browsers and Node.js.  in case of a web browser 'this' will be the object window.
     // libraryExport: 'default',
     // umdNamedDefine: true,
@@ -38,7 +43,9 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['.jsx', '.js', '.ts', '.tsx'],
+    extensions: ['.jsx', '.js', '.ts', '.tsx']
   },
-  plugins: [new CleanWebpackPlugin()],
+  plugins: [
+    new CleanWebpackPlugin()
+  ],
 };

@@ -2,25 +2,21 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import App from './App';
 import window from 'global';
-import invokeGraphERRQL from './middleware';
-// console.log('GLOBAL THIS', this);
+console.log('HERE')
+
+global['GraphERRQL'] = {
+  init: (rootEl, options) => {
+    ReactDOM.render(<App />, rootEl);
+  },
+  testProp: 'testVal',
+};
+
 if (typeof window !== 'undefined') {
   console.log('You are on the browser');
-  // ✅ Can use window here
-  window.GraphERRQL = {
-    init: (rootEl, options) => {
-      ReactDOM.render(<App />, rootEl);
-    },
-  };
-} else {
-  console.log('You are on the server');
-  // ⛔️ Don't use window here
-}
-const testing2 = function () {
-  return 'HELLO';
-};
+  console.log(`WINDOW: ${window.GraphERRQL.testProp}`);
+} else console.log('You are on the server');
+
+const testing2 = (name) => `HELLO ${name}`;
 const testing = '5';
+export const testing3 = '3';
 export default { testing, testing2 };
-export const test3 = () => {
-  return 'Hello';
-};

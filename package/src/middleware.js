@@ -10,4 +10,4 @@ const invokeGraphERRQL = (options) => {
   };
 };
 
-export default invokeGraphERRQL;
+export default { invokeGraphERRQL };
