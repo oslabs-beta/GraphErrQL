@@ -26,6 +26,10 @@ import invokeGraphERRQL from './../../package/src/index';
 
 
 
+
+AMAZON S3 BUCKET FOR SERVING PUBLIC STATIC FILES:
+https://s3.console.aws.amazon.com/s3/buckets/grapherrql-bucket?region=us-east-2&tab=objects
+
 Remember to add co-authors in your commit messages via following:
 https://docs.github.com/en/pull-requests/committing-changes-to-your-project/creating-and-editing-commits/creating-a-commit-with-multiple-authors
 
