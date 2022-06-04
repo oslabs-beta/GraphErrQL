@@ -1,4 +1,5 @@
 export const renderHTML = (options) => {
+
   return `
     <!DOCTYPE html>
     <html lang="en">
@@ -9,13 +10,13 @@ export const renderHTML = (options) => {
         <title>Document</title>
     </head>
     <body>
-        <h1>hey</h1>
         <div id="root"></div>
+        <script src="https://grapherrql-bucket.s3.us-east-2.amazonaws.com/grapherrqlLibrary.index.js"></script>
         <script type="text/javascript">
         window.addEventListener('load', function (event) {
             const root = document.getElementById('root');
-            GraphERRQL.init(root);
-        }
+            window.GraphERRQL.init(root);
+        })
         </script>
     </body>
     </html>
