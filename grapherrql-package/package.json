@@ -1,0 +1,64 @@
+{
+  "name": "graph-err-ql",
+  "version": "0.0.1",
+  "description": "graphql IDE",
+  "main": "./dist/index.ts",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "builduipackage": "tsc -p ./packageScripts/tsconfig.json --outDir ./package && tsc -p ./scripts/tsconfig.json && node ./scripts/createPackage.js",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^9.0.13"
+  },
+  "keywords": [
+    "graphql"
+  ],
+  "author": "pandaWhale",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/preset-env": "^7.18.2",
+    "@babel/preset-react": "^7.17.12",
+    "babel-loader": "^8.2.5",
+    "global": "^4.4.0",
+    "process": "^0.11.10",
+    "ts-loader": "^9.3.0",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.11.41",
+    "@types/react": "^18.0.14",
+    "@types/react-dom": "^18.0.5",
+    "fs-extra": "^10.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "typescript": "^4.7.4",
+    "web-vitals": "^2.1.4"
+  }
+}
