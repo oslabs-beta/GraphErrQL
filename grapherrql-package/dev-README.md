@@ -3,7 +3,7 @@
 ##Pre-reqs
 
 - LOCAL TESTING Host App can use any node backend approach. This guide uses Express
-- LOCAL TESTING Host App should live under top-level project repo "GraphERR-QL". It should live in separate directory from 'grapherrql-package', which holds our project source code. Example file structure for development:
+- LOCAL TESTING Host App should live under top-level project repo "GraphERR-QL". It should live in separate directory WITHIN 'grapherrql-package', which holds our project source code. Example file structure for development:
   GraphERR-QL/
   ./grapherrql-package
   ./(HOST APP USED FOR TESTING)
