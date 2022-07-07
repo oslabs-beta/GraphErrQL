@@ -1,10 +1,6 @@
 import { React, useState } from 'react';
 import ErrorResponseBox from './ErrorResponseBox';
-import {
-  StyledSuccessLog,
-  StyledErrorLogNoResponse,
-  StyledErrorLogWithResponse,
-} from './styles/Log.styled';
+import { StyledSuccessLog, StyledErrorLogNoResponse, StyledErrorLogWithResponse } from './styles/Log.styled';
 
 function Log(props) {
   const [errorResponseBox, setErrorResponseBox] = useState(false);
@@ -51,8 +47,8 @@ function Log(props) {
               &nbsp;
               {props.query}
             </StyledErrorLogNoResponse>
-          </div>
-        </div>
+          </div>     
+        </div>   
       )}
     </div>
   );
