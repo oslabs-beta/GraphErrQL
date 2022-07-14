@@ -1,7 +1,7 @@
 import { React, useState } from 'react';
 import LoggerResponse from './LoggerResponse';
-import { mockData } from './mockData';
-import { Button } from './styles/LoggerBox.styled.js';
+import { mockData } from '../mockData';
+import { Button } from '../styles/LoggerBox.styled.js';
 
 function LoggerBox() {
   const [arrayIndex, setArrayIndex] = useState(0);
