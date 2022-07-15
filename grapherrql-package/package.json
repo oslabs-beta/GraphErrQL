@@ -1,6 +1,6 @@
 {
   "name": "graph-err-ql",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "graphql IDE",
   "main": "./dist/index.ts",
   "types": "./dist/index.d.ts",

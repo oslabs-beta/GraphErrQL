@@ -5,7 +5,7 @@ import {
   StyledSuccessNoResponse,
   StyledErrorNoResponse,
   StyledErrorWithResponse,
-} from './styles/LoggerResponse.styled';
+} from '../styles/LoggerResponse.styled';
 import SuccessResponseBox from './SuccessResponseBox';
 
 function LoggerResponse(props) {

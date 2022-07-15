@@ -1,0 +1,113 @@
+import './App.css';
+import React, { useState } from 'react';
+// import { w3cwebsocket as WebSocket } from "websocket"
+// import WebScoket from 'ws';
+
+import styled from 'styled-components';
+// import MainContainer from './components/MainContainer';
+const MainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Button = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  padding: 0.5rem 0;
+  margin: 0.5rem 1rem;
+  width: 11rem;
+  background: transparent;
+  color: black;
+  border: 2px solid black;
+`;
+
+const ResponseData = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid black;
+  min-height: 85vh;
+`;
+
+const BOOKS_QUERY = `
+{
+  books {
+    name
+    id
+  }
+}
+`;
+const AUTHORS_QUERY = `
+{
+  authors {
+    name
+  }
+}
+`;
+
+function App() {
+  // ws.on('connection', () => {
+  //   console.log('emitting connection from front end');
+  //   ws.emit('connection');
+  // });
+  // ws.on('open', function open() {
+  //   ws.send('something');
+  // });
+
+  // ws.on('message', function message(data) {
+  //   console.log(`recieved: `, data);
+  // });
+
+  const [response, setResponse] = useState([]);
+
+  const queryBooks = () => {
+    fetch('http://localhost:3001/graphql', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        // Connection: 'Upgrade',
+        // Upgrade: 'Websocket',
+      },
+      body: JSON.stringify({ query: BOOKS_QUERY }),
+    })
+      .then((response) => response.json())
+      .then((data) => setResponse(data));
+  };
+  const queryAuthors = () => {
+    fetch('http://localhost:3001/graphql', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query: AUTHORS_QUERY }),
+    })
+      .then((response) => response.json())
+      .then((data) => setResponse(data));
+  };
+  // const sendMessage = () => {
+  //   clientWebSocket.send('Hello from Client1');
+  // };
+
+  return (
+    <div>
+      <MainContainer>
+        <ButtonContainer>
+          <Button onClick={queryBooks}>Fetch Books</Button>
+          <Button onClick={queryAuthors}>Fetch Authors</Button>
+          {/* <Button onClick={sendMessage}>Send MSG</Button> */}
+        </ButtonContainer>
+
+        <ResponseData>{JSON.stringify(response)}</ResponseData>
+      </MainContainer>
+    </div>
+  );
+}
+
+export default App;
