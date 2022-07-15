@@ -2,6 +2,7 @@ import { React, useState } from 'react';
 import LoggerResponse from './LoggerResponse';
 import { mockData } from './mockData';
 import { Button } from './styles/LoggerBox.styled.js';
+import { WsFunc } from './Websocket';
 
 function LoggerBox() {
   const [arrayIndex, setArrayIndex] = useState(0);
@@ -32,6 +33,7 @@ function LoggerBox() {
         <strong>Simulate Query!</strong>
       </Button>
       <div>{responseArray}</div>
+      <WsFunc />
     </>
   );
 }
