@@ -1,24 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import Header from './components/Header';
 import { GraphContextProvider } from './components/SandboxMode/Context';
 
 function App() {
+  const [ listening, setListening ] = useState(false);
 
-  // const clientWebSocket = new WebSocket('ws://localhost:3001/');
-  // clientWebSocket.addEventListener('connection', function (event) {
-  //   clientWebSocket.send('Connect from client successful');
-  // });
-  // clientWebSocket.addEventListener('open', function (event) {
-  //   console.log('Connected to WS server');
-  // });
-  // clientWebSocket.addEventListener('close', function (event) {
-  //   console.log('Connection to WS server is closed');
-  // });
-
-  // clientWebSocket.addEventListener('message', function (event) {
-  //   console.log('Message from server ', JSON.parse(event.data).message);
-  // });
+  useEffect( () => {
+    if (!listening) {
+      const source = new EventSource(document.cookie.slice(10,-1));
+      console.log('listening for events from Host App SSE...');
+      source.onmessage = (event) => {
+        const parsedData = JSON.parse(event.data);
+        console.log(`RECEIVED SSE Event: ${JSON.stringify(parsedData)}`);
+      };
+    }
+  }, [listening])
 
   return (
     <div>

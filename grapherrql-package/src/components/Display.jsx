@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import ResponseBox from './ResponseBox';
 import QueryBox from './QueryBox';
-import { DisplaySandbox, QuerySandbox, ResponseSandbox } from './styles/Display.styled';
+import { DisplaySandbox, QuerySandbox, ResponseSandbox } from './LiveMode/styles/Display.styled';
 
 export default function Display() {
   return (

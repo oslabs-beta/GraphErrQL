@@ -1,8 +1,6 @@
 import { React, useState } from 'react';
 import LoggerResponse from './LoggerResponse';
-import { mockData } from './mockData';
 import { Button } from './styles/LoggerBox.styled.js';
-import { WsFunc } from './Websocket';
 
 function LoggerBox() {
   const [arrayIndex, setArrayIndex] = useState(0);
@@ -16,13 +14,14 @@ function LoggerBox() {
         ...resArray,
         <LoggerResponse
           key={arrayIndex}
-          successfail={mockData[arrayIndex].success}
-          query={mockData[arrayIndex].query}
-          response={mockData[arrayIndex].response}
+          // successfail={mockData[arrayIndex].success}
+          // query={mockData[arrayIndex].query}
+          // response={mockData[arrayIndex].response}
         />,
       ]);
     }
   };
+
   return (
     <>
       <Button
@@ -33,7 +32,6 @@ function LoggerBox() {
         <strong>Simulate Query!</strong>
       </Button>
       <div>{responseArray}</div>
-      <WsFunc />
     </>
   );
 }

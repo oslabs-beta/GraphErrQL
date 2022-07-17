@@ -1,5 +1,5 @@
 import React from 'react';
-import { SuccessResponseDropdown } from '../styles/SuccessResponseBox.styled';
+import { SuccessResponseDropdown } from './styles/SuccessResponseBox.styled';
 
 function SuccessResponseBox(props) {
   return (
