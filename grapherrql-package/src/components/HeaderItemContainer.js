@@ -1,4 +1,4 @@
-import { StyledHeaderItemContainer } from './styles/HeaderItemContainer.styled';
+import { StyledHeaderItemContainer } from './LiveMode/styles/HeaderItemContainer.styled';
 import { BsToggle2Off, BsToggle2On, BsPlayCircle } from 'react-icons/bs';
 
 function HeaderItemContainer({ liveMode, handleToggleClick }) {

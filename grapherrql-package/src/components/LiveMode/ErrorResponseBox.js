@@ -1,5 +1,5 @@
 import React from 'react';
-import { ErrorResponseDropdown } from '../styles/ErrorResponseBox.styled';
+import { ErrorResponseDropdown } from './styles/ErrorResponseBox.styled';
 
 function ErrorResponseBox(props) {
   return (
