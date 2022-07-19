@@ -1,10 +1,10 @@
 import { React, useState } from 'react';
-import LoggerBox from './LoggerBox';
+import LoggerBox from './LiveMode/LoggerBox';
 import logo from '../images/GraphErrlogo.svg';
-import { Logo, StyledHeader } from './styles/Header.styled';
-import { StyledBody } from './styles/LoggerBox.styled';
+import { Logo, StyledHeader } from './LiveMode/styles/Header.styled';
+import { StyledBody } from './LiveMode/styles/LoggerBox.styled';
 import HeaderItemContainer from './HeaderItemContainer';
-import Display from './Display';
+import Display from './SandboxMode/Display';
 
 function Header() {
   const [liveMode, setLiveMode] = useState(false);
@@ -24,7 +24,7 @@ function Header() {
           handleToggleClick={handleToggleClick}
         />
       </StyledHeader>
-      <StyledBody>{liveMode ? <LoggerBox /> : <Display/>}</StyledBody>
+      <StyledBody>{liveMode ? <LoggerBox /> : <Display />}</StyledBody>
     </div>
   );
 }
