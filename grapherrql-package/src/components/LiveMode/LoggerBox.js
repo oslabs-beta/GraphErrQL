@@ -1,7 +1,6 @@
 import { React, useState } from 'react';
 import LoggerResponse from './LoggerResponse';
-import { mockData } from '../mockData';
-import { Button } from '../styles/LoggerBox.styled.js';
+import { Button } from './styles/LoggerBox.styled.js';
 
 function LoggerBox() {
   const [arrayIndex, setArrayIndex] = useState(0);
@@ -15,13 +14,14 @@ function LoggerBox() {
         ...resArray,
         <LoggerResponse
           key={arrayIndex}
-          successfail={mockData[arrayIndex].success}
-          query={mockData[arrayIndex].query}
-          response={mockData[arrayIndex].response}
+          // successfail={mockData[arrayIndex].success}
+          // query={mockData[arrayIndex].query}
+          // response={mockData[arrayIndex].response}
         />,
       ]);
     }
   };
+
   return (
     <>
       <Button
