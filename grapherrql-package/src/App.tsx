@@ -38,6 +38,9 @@ function App() {
         if (parsedData.data) {
           setLiveResponse(JSON.stringify(parsedData));
         }
+        if (parsedData.message) {
+          setLiveResponse(JSON.stringify(parsedData));
+        }
         //graphql does not send a resp if an error - will need to throw and catch it
         console.log(`RECEIVED SSE Event: ${JSON.stringify(parsedData)}`);
       };
