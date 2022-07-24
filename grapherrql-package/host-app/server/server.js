@@ -207,16 +207,7 @@ app.use(
       customFormatErrorFn: (error) => {
         SSE_Events.push(error);
         sendEventToClients(error);
-        return {
-          message: error.message,
-          locations: error.locations,
-          stack: error.stack ? error.stack.split('\n') : [],
-          path: error.path,
-          // test: () => {
-          //   SSE_Events.push(error);
-          //   sendEventToClients(error);
-          // },
-        };
+        return error;
       },
       extensions,
     };
