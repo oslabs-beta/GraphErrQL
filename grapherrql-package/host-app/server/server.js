@@ -12,7 +12,6 @@ const {
 } = require('graphql');
 const path = require('path');
 
-
 const app = express();
 
 app.use(cors());
@@ -140,8 +139,6 @@ const schema = new GraphQLSchema({
   mutation: RootMutationType,
 });
 
-
-
 //Store GraphQL Queries as they arrive from HostApp client. Any stored will be sent to GraphERRQL clients when they come up.
 let SSE_Events = [];
 //Store SSE Clients
@@ -150,15 +147,15 @@ let SSE_Clients = [];
 //Accept new SSE (Server-Sent-Events) connections from clients, makes them persistent via special HTTP headers. Sends new client all current queries upon startup. Subsequent queries will be added and forwarded by 'addQueryMiddleware'. Saves client info. Can server multiple clients simultaneously, but GraphERRQL is currently only one.
 function eventsHandler(req, res, next) {
   const headers = {
-    "Content-Type": "text/event-stream",
-    "Connection": "keep-alive",
-    "Cache-Control": "no-cache",
+    'Content-Type': 'text/event-stream',
+    Connection: 'keep-alive',
+    'Cache-Control': 'no-cache',
   };
   res.writeHead(200, headers);
   const data = `data: ${JSON.stringify(SSE_Events)}\n\n`;
   console.log(`SENDING DATA TO NEW CLIENT: ${data}`);
   res.write(data);
-  
+
   const clientId = Date.now();
   const newClient = {
     id: clientId,
@@ -183,21 +180,21 @@ const addQueryMiddleware = (req, res, next) => {
 //Send the provided new Query (or Query response) to all currently open SSE Clients
 const sendEventToClients = (newEvent) => {
   SSE_Clients.forEach((client) =>
-  client.res.write(`data: ${JSON.stringify(newEvent)}\n\n`)
+    client.res.write(`data: ${JSON.stringify(newEvent)}\n\n`)
   );
 };
 
-//This attaches to the GraphQLHTTP server and runs AFTER Query is processed into result. We us it to store that result and forward it to SSE clients 
-const extensions = ({
-  result,
-}) => {
+//This attaches to the GraphQLHTTP server and runs AFTER Query is processed into result. We us it to store that result and forward it to SSE clients
+const extensions = ({ result }) => {
+  console.log('result: ', result);
   SSE_Events.push(result);
   sendEventToClients(result);
-}
+};
+//custom errors from graphql
 
 //Needed for SSE
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 
 //GraphQL base endpoint. Middleware called before GraphQL processing to capture and forward the Query to GraphERRQL for LiveMode logging. The 'extensions' prop on GraphQL return statement captures and forwards the GraphQL response. Both cases utilize SSE connection setup by 'eventsHandler'
 app.use(
@@ -207,7 +204,21 @@ app.use(
     return {
       schema: schema,
       graphiql: false,
-      extensions
+      customFormatErrorFn: (error) => {
+        SSE_Events.push(error);
+        sendEventToClients(error);
+        return {
+          message: error.message,
+          locations: error.locations,
+          stack: error.stack ? error.stack.split('\n') : [],
+          path: error.path,
+          // test: () => {
+          //   SSE_Events.push(error);
+          //   sendEventToClients(error);
+          // },
+        };
+      },
+      extensions,
     };
   })
 );
@@ -219,7 +230,7 @@ const HOST_APP_SSE_PATH = 'http://localhost:3001/events';
 //Referencing local files to serve to GraphERRQL. Deployment will see Host Apps referencing node-modules dynamically rather than looking for these files locally.
 app.use(express.static('../../build'));
 app.get('/grapherrql', function (req, res) {
-  let data = fs.readFileSync((path.resolve('../../build/index.html')), 'utf8');
+  let data = fs.readFileSync(path.resolve('../../build/index.html'), 'utf8');
   res.send(data.replace('<param1_replace>', HOST_APP_SSE_PATH));
 });
 

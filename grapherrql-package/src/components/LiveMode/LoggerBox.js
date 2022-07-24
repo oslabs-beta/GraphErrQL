@@ -21,10 +21,13 @@ const ErrorsDispay = styled.div`
 const QueryDisplay = styled.div`
   display: flex;
   font-weight: 900;
-  
 `;
 const ResponseDisplay = styled.div`
   display: flex;
+`;
+
+const ErrorItem = styled.h3`
+  color: #ff1616;
 `;
 // import LoggerResponse from './LoggerResponse';
 // import { Button } from './styles/LoggerBox.styled.js';
@@ -51,6 +54,14 @@ function LoggerBox() {
   //     ]);
   //   }
   // };
+  const errorList = [];
+  // const response = JSON.parse(liveResponse);
+  if (liveResponse.errors) {
+    let i = 0;
+    liveResponse.errors.forEach((error) => {
+      errorList.push(<ErrorItem key={i}>{JSON.stringify(error)}</ErrorItem>);
+    });
+  }
 
   return (
     <>
@@ -59,7 +70,7 @@ function LoggerBox() {
           <QueryDisplay>{liveQuery}</QueryDisplay>
           <ResponseDisplay>{liveResponse}</ResponseDisplay>
         </IncomingDataContainer>
-        <ErrorsDispay />
+        <ErrorsDispay>{errorList}</ErrorsDispay>
       </DataContainer>
 
       {/* <Button

@@ -23,7 +23,7 @@ function App() {
   //   };
   //   queryVsRes();
   // };
-  let isQuery = true;
+  // let isQuery = true;
 
   useEffect(() => {
     if (!listening) {
@@ -35,9 +35,10 @@ function App() {
         if (parsedData.query) {
           setLiveQuery(JSON.stringify(parsedData));
         }
-        if (parsedData.data || parsedData.errors) {
+        if (parsedData.data) {
           setLiveResponse(JSON.stringify(parsedData));
         }
+        //graphql does not send a resp if an error - will need to throw and catch it
         console.log(`RECEIVED SSE Event: ${JSON.stringify(parsedData)}`);
       };
     }

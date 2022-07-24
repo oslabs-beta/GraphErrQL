@@ -54,6 +54,14 @@ const AUTHORS_QUERY = `
 }
 `;
 
+const AUTHORS_BDAY_QUERY = `
+
+{
+  authors {
+    birthday
+  }
+}`;
+
 function App() {
   // ws.on('connection', () => {
   //   console.log('emitting connection from front end');
@@ -91,6 +99,15 @@ function App() {
       .then((response) => response.json())
       .then((data) => setResponse(data));
   };
+  const queryAuthorsBday = () => {
+    fetch('http://localhost:3001/graphql', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query: AUTHORS_BDAY_QUERY }),
+    })
+      .then((response) => response.json())
+      .then((data) => setResponse(data));
+  };
   // const sendMessage = () => {
   //   clientWebSocket.send('Hello from Client1');
   // };
@@ -101,6 +118,7 @@ function App() {
         <ButtonContainer>
           <Button onClick={queryBooks}>Fetch Books</Button>
           <Button onClick={queryAuthors}>Fetch Authors</Button>
+          <Button onClick={queryAuthorsBday}>Fetch an ERROR</Button>
           {/* <Button onClick={sendMessage}>Send MSG</Button> */}
         </ButtonContainer>
 
