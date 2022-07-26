@@ -1,37 +1,71 @@
-import { React, useState } from 'react';
-import LoggerResponse from './LoggerResponse';
-import { Button } from './styles/LoggerBox.styled.js';
+import { React, useContext } from 'react';
+import styled from 'styled-components';
+import { LiveContext } from '../LiveMode/LiveContext';
+
+// all of these styled components just for display/info when testing incomming info, can make new ones
+const DataContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+`;
+const IncomingDataContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+`;
+
+const ErrorsDispay = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
+
+const QueryDisplay = styled.div`
+  display: flex;
+  font-weight: 900;
+`;
+const ResponseDisplay = styled.div`
+  display: flex;
+`;
+
+const ErrorItem = styled.h3`
+  color: #ff1616;
+`;
 
 function LoggerBox() {
-  const [arrayIndex, setArrayIndex] = useState(0);
-  const [responseArray, setResponseArray] = useState([]);
+  const { liveQuery, liveResponse, dataLog } = useContext(LiveContext);
 
-  const updateIndex = () => {
-    if (arrayIndex < 5) {
-      setArrayIndex((num) => num + 1);
+  // TODO
+  // const errorList = [];
 
-      setResponseArray((resArray) => [
-        ...resArray,
-        <LoggerResponse
-          key={arrayIndex}
-          // successfail={mockData[arrayIndex].success}
-          // query={mockData[arrayIndex].query}
-          // response={mockData[arrayIndex].response}
-        />,
-      ]);
-    }
-  };
+  // if (liveResponse.errors) {
+  //   let i = 0;
+  //   liveResponse.errors.forEach((error) => {
+  //     errorList.push(<ErrorItem key={i}>{JSON.stringify(error)}</ErrorItem>);
+  //   });
+  // }
 
+  const displayDataLog = dataLog.map((item) => {
+    return (
+      <>
+        {/* can wrap each item in styled component  */}
+        <div></div>
+        {item}
+        <div>*************</div>
+      </>
+    );
+  });
   return (
     <>
-      <Button
-        onClick={() => {
-          updateIndex();
-        }}
-      >
-        <strong>Simulate Query!</strong>
-      </Button>
-      <div>{responseArray}</div>
+      <DataContainer>
+        <IncomingDataContainer>
+          <QueryDisplay>{liveQuery}</QueryDisplay>
+          <ResponseDisplay>{liveResponse}</ResponseDisplay>
+          {/* can make style component to hold the displayDataLog value */}
+          <h3>data log:</h3>
+          <p>{displayDataLog}</p>
+        </IncomingDataContainer>
+        {/* <ErrorsDispay>{errorList}</ErrorsDispay> */}
+      </DataContainer>
     </>
   );
 }
