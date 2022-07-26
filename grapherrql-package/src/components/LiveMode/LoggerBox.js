@@ -1,6 +1,6 @@
 import { React, useState, useContext } from 'react';
 import styled from 'styled-components';
-import { LiveContext } from '../LiveMode/liveContext';
+import { LiveContext } from '../LiveMode/LiveContext';
 
 const DataContainer = styled.div`
   display: grid;
@@ -37,7 +37,7 @@ const ErrorItem = styled.h3`
 function LoggerBox() {
   // const [arrayIndex, setArrayIndex] = useState(0);
   // const [responseArray, setResponseArray] = useState([]);
-  const { liveQuery, liveResponse } = useContext(LiveContext);
+  const { liveQuery, liveResponse, dataLog } = useContext(LiveContext);
 
   // const updateIndex = () => {
   //   if (arrayIndex < 5) {
@@ -69,6 +69,8 @@ function LoggerBox() {
         <IncomingDataContainer>
           <QueryDisplay>{liveQuery}</QueryDisplay>
           <ResponseDisplay>{liveResponse}</ResponseDisplay>
+          data log:
+          <h1>{dataLog}</h1>
         </IncomingDataContainer>
         <ErrorsDispay>{errorList}</ErrorsDispay>
       </DataContainer>

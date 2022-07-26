@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import Header from './components/Header';
 import { GraphContextProvider } from './components/SandboxMode/Context';
-import { LiveContext } from './components/LiveMode/liveContext';
+import { LiveContext } from './components/LiveMode/LiveContext';
 
 function App() {
   const [listening, setListening] = useState(false);
   const [liveQuery, setLiveQuery] = useState('Query');
   const [liveResponse, setLiveResponse] = useState('Response');
+  const [dataLog, setDataLog] = useState<any>([]);
 
   // const captureData = (data: any) => {
   //   let isQuery = true;
@@ -33,16 +34,23 @@ function App() {
         const parsedData = JSON.parse(event.data);
         //discern data - query vs response
         if (parsedData.query) {
-          setLiveQuery(JSON.stringify(parsedData));
+          const str = JSON.stringify(parsedData);
+          setLiveQuery(str);
+          setDataLog((prev: any) => [...prev, str]);
         }
         if (parsedData.data) {
-          setLiveResponse(JSON.stringify(parsedData));
+          const str = JSON.stringify(parsedData);
+          setLiveResponse(str);
+          setDataLog((prev: any) => [...prev, str]);
         }
         if (parsedData.message) {
-          setLiveResponse(JSON.stringify(parsedData));
+          const str = JSON.stringify(parsedData);
+          setLiveResponse(str);
+          setDataLog((prev: any) => [...prev, str]);
         }
         //graphql does not send a resp if an error - will need to throw and catch it
         console.log(`RECEIVED SSE Event: ${JSON.stringify(parsedData)}`);
+        console.log('DATA LOGGER: ', dataLog);
       };
     }
   }, [listening]);
@@ -50,7 +58,13 @@ function App() {
   return (
     <div>
       <LiveContext.Provider
-        value={{ liveQuery, setLiveQuery, liveResponse, setLiveResponse }}
+        value={{
+          liveQuery,
+          setLiveQuery,
+          liveResponse,
+          setLiveResponse,
+          dataLog,
+        }}
       >
         <GraphContextProvider>
           <Header />
