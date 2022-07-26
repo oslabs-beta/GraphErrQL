@@ -54,6 +54,14 @@ const AUTHORS_QUERY = `
 }
 `;
 
+const AUTHORS_BDAY_QUERY = `
+
+{
+  authors {
+    birthday
+  }
+}`;
+
 function App() {
   // ws.on('connection', () => {
   //   console.log('emitting connection from front end');
@@ -68,6 +76,7 @@ function App() {
   // });
 
   const [response, setResponse] = useState([]);
+  const [birthday, setBirthday] = useState({});
 
   const queryBooks = () => {
     fetch('http://localhost:3001/graphql', {
@@ -91,9 +100,32 @@ function App() {
       .then((response) => response.json())
       .then((data) => setResponse(data));
   };
-  // const sendMessage = () => {
-  //   clientWebSocket.send('Hello from Client1');
-  // };
+  const queryAuthorsBday = () => {
+    fetch('http://localhost:3001/graphql', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query: AUTHORS_BDAY_QUERY }),
+    })
+      .then((response) => response.json())
+      .then((data) => setResponse(data));
+  };
+
+  const queryAuthorsBday2 = () => {
+    fetch('http://localhost:3001/graphql', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query: AUTHORS_BDAY_QUERY }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // console.log('BIRTHDAY OBJ: ', data);
+        setBirthday(data);
+      });
+  };
+
+  const resetBirthdayState = () => {
+    setBirthday({});
+  };
 
   return (
     <div>
@@ -101,10 +133,24 @@ function App() {
         <ButtonContainer>
           <Button onClick={queryBooks}>Fetch Books</Button>
           <Button onClick={queryAuthors}>Fetch Authors</Button>
+          <Button onClick={queryAuthorsBday}>Fetch an ERROR</Button>
+          <Button onClick={queryAuthorsBday2}>
+            Fetch an ERROR - Real World
+          </Button>
+          <Button onClick={resetBirthdayState}>Reset Birthday State</Button>
           {/* <Button onClick={sendMessage}>Send MSG</Button> */}
         </ButtonContainer>
 
-        <ResponseData>{JSON.stringify(response)}</ResponseData>
+        <ResponseData>
+          {birthday.errors ? (
+            <>
+              <h2>The Author's birthday is: </h2>
+              <p>{birthday.day}</p>
+            </>
+          ) : (
+            JSON.stringify(response)
+          )}
+        </ResponseData>
       </MainContainer>
     </div>
   );
