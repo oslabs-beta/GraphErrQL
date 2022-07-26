@@ -35,27 +35,10 @@ const ErrorItem = styled.h3`
 // import { mockData } from './mockData';
 
 function LoggerBox() {
-  // const [arrayIndex, setArrayIndex] = useState(0);
-  // const [responseArray, setResponseArray] = useState([]);
   const { liveQuery, liveResponse, dataLog } = useContext(LiveContext);
 
-  // const updateIndex = () => {
-  //   if (arrayIndex < 5) {
-  //     setArrayIndex((num) => num + 1);
-
-  //     setResponseArray((resArray) => [
-  //       ...resArray,
-  //       <LoggerResponse
-  //         key={arrayIndex}
-  //         // successfail={mockData[arrayIndex].success}
-  //         query={liveQuery}
-  //         response={liveResponse}
-  //       />,
-  //     ]);
-  //   }
-  // };
   const errorList = [];
-  // const response = JSON.parse(liveResponse);
+
   if (liveResponse.errors) {
     let i = 0;
     liveResponse.errors.forEach((error) => {
@@ -63,6 +46,15 @@ function LoggerBox() {
     });
   }
 
+  const displayDataLog = dataLog.map((item) => {
+    return (
+      <>
+        <div></div>
+        {item}
+        <div>*************</div>
+      </>
+    );
+  });
   return (
     <>
       <DataContainer>
@@ -70,7 +62,7 @@ function LoggerBox() {
           <QueryDisplay>{liveQuery}</QueryDisplay>
           <ResponseDisplay>{liveResponse}</ResponseDisplay>
           data log:
-          <h1>{dataLog}</h1>
+          <h1>{displayDataLog}</h1>
         </IncomingDataContainer>
         <ErrorsDispay>{errorList}</ErrorsDispay>
       </DataContainer>
