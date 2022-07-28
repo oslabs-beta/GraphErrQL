@@ -1,6 +1,12 @@
 import { React, useContext } from 'react';
 import styled from 'styled-components';
 import { LiveContext } from '../LiveMode/LiveContext';
+import {
+  StyledSuccessWithResponse,
+  StyledSuccessNoResponse,
+  StyledErrorNoResponse,
+  StyledErrorWithResponse,
+} from './styles/LoggerResponse.styled';
 
 // all of these styled components just for display/info when testing incomming info, can make new ones
 const DataContainer = styled.div`
@@ -29,6 +35,15 @@ const ResponseDisplay = styled.div`
 
 const ErrorItem = styled.h3`
   color: #ff1616;
+`;
+
+export const QueryResponse = styled.pre`
+  background-color: #e9eef0;
+
+  color: black;
+
+  padding: 15px 15px;
+  font-size: 1.25em;
 `;
 
 function LoggerBox() {
@@ -61,10 +76,25 @@ function LoggerBox() {
 
   const displayDataLog = groupedQueryResponses.map((qR) => {
     const queryResponse = qR.map((item) => {
+      //for this return, if string is query give it a style component that is clickable
+      //if string is success response (data) then give it style component with success border - this container appears if query is clicked
+      // if the response string is an error (message) then give it the style component with error border
+      //can we discern in the query if it is an error? or is there a way to check if query's child component is an error and give it a border based on that?
       return (
         <>
-          <>{item}</> {/*should be a styled query container, onClick will trigger if response will show or hide */}
-          <div>**************{/*should be a styled response container with state for show: true or false */}</div>
+          {String(item).slice(2, 7) === 'query' ? (
+            <>{item}</>
+          ) : String(item).slice(2, 9) === 'message' ? (
+            <StyledErrorNoResponse>{item}</StyledErrorNoResponse>
+          ) : (
+            <QueryResponse>{item}</QueryResponse>
+          )}
+          {/* <>{item}</>{' '} */}
+          {/*should be a styled query container, onClick will trigger if response will show or hide */}
+          {/* <div>
+           ************** */}
+          {/*should be a styled response container with state for show: true or false */}
+          {/* </div> */}
         </>
       );
     });
@@ -72,8 +102,7 @@ function LoggerBox() {
       <>
         {/* can wrap each item in styled component  */}
         <div></div>
-        {queryResponse}
-        <div>-----------------</div>
+        <StyledSuccessNoResponse>{queryResponse}</StyledSuccessNoResponse>
       </>
     );
   });
