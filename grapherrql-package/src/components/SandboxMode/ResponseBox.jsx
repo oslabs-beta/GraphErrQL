@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { Controlled as CodeMirror } from 'react-codemirror2';
 import { GraphContext } from './Context';
-
 import 'codemirror/mode/javascript/javascript'
 import 'codemirror/lib/codemirror.css';
 // import 'codemirror/theme/material.css'
@@ -12,6 +11,8 @@ import 'codemirror-graphql/lint';
 import 'codemirror-graphql/mode';
 import 'codemirror/mode/jsx/jsx';
 import 'codemirror/addon/edit/closebrackets';
+
+import ('codemirror/mode/xml/xml');
 
 
 
