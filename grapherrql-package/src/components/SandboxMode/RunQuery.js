@@ -7,10 +7,10 @@ const RunQuery = () => {
   function handleClick(e) {
     e.preventDefault();
 
-    let userURI = 'https://api.spacex.land/graphql/';
+    let APIURI = 'https://api.spacex.land/graphql/';
 
     const handleRequest = () => {
-      fetch(`${userURI}`, {
+      fetch(`${APIURI}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -30,7 +30,7 @@ const RunQuery = () => {
         .catch((err) => {
           setInfo(() => ({
             ...info,
-            response: 'Request to server failed.',
+            response: 'Sorry, your request failed',
           }));
         });
     };
@@ -39,14 +39,14 @@ const RunQuery = () => {
     const handleInvalid = () => {
       setInfo(() => ({
         ...info,
-        response: 'Invalid Syntax',
+        response: 'Please start with query or mutation',
       }));
     };
 
     // Validate Input
     if (
       info.body.substring(0, 5).toLowerCase() === 'query' ||
-      info.body.substring(0, 5).toLowerCase() === 'mutat' ||
+      info.body.substring(0, 8).toLowerCase() === 'mutation' ||
       info.body[0] === '{'
     ) {
       handleRequest();
@@ -58,12 +58,11 @@ const RunQuery = () => {
   return (
       <div>
       <button
-          id='submit-query'
-          className='btn-gray'
+          id='submit'
           type='submit'
           onClick={handleClick}
       >
-      Submit
+      Submit Query
       </button>
        </div>)
 }
