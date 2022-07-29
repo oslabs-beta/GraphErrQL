@@ -22,17 +22,15 @@ const IncomingDataContainer = styled.div`
 `;
 
 //quote
-const Quote = styled.div`
-  padding: 1rem;
+const TextContainer = styled.div`
   border-radius: 0.3rem;
 `;
 
 const CurrQuote = styled.div`
-  padding: 1rem;
   border-radius: 0.3rem;
 `;
 
-const QuoteError = styled.div`
+const ErrorTextContainer = styled.div`
   background-color: #e9eef0;
   border: 7px solid #ff1616;
   color: black;
@@ -74,7 +72,7 @@ const CurrentQueryResponse = styled.div`
   flex-wrap: wrap;
   max-width: 87.25vw;
   background-color: #e9eef0;
-  border: 7px solid #04aa6d;
+  border: 7px solid #078aa8;
   color: black;
   border-radius: 20px;
   padding: 15px 15px;
@@ -117,17 +115,17 @@ function LoggerBox() {
       return (
         <>
           {String(item).slice(2, 7) === 'query' ? (
-            <Quote>
+            <TextContainer>
               <p>{item}</p>
-            </Quote>
+            </TextContainer>
           ) : String(item).slice(2, 9) === 'message' ? (
-            <QuoteError>
+            <ErrorTextContainer>
               <p>{item}</p>
-            </QuoteError>
+            </ErrorTextContainer>
           ) : (
-            <Quote>
+            <TextContainer>
               <p>{item}</p>
-            </Quote>
+            </TextContainer>
           )}
           {/* <>{item}</>{' '} */}
           {/*should be a styled query container, onClick will trigger if response will show or hide */}
@@ -151,12 +149,16 @@ function LoggerBox() {
       <DataContainer>
         <IncomingDataContainer>
           <CurrentQueryResponse>
-            <Quote>
+            <TextContainer>
               <p>{liveQuery}</p>
-            </Quote>
-            <Quote>
-              <p>{liveResponse}</p>
-            </Quote>
+            </TextContainer>
+            {String(liveResponse).slice(2, 9) === 'message' ? (
+              <ErrorTextContainer>{liveResponse}</ErrorTextContainer>
+            ) : (
+              <TextContainer>
+                <p>{liveResponse}</p>
+              </TextContainer>
+            )}
           </CurrentQueryResponse>
           {/* can make style component to hold the displayDataLog value */}
           <h3>data log:</h3>

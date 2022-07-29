@@ -25,11 +25,10 @@ export const StyledSuccessNoResponse = styled.div`
   flex-wrap: wrap;
   max-width: 87.25vw;
   background-color: #e9eef0;
-  border: 7px solid #078aa8;
+  border: 7px solid #5a79af;
   color: black;
   border-radius: 20px;
   padding: 15px 15px;
-  
 `;
 
 export const StyledSuccessWithResponse = styled.pre`
