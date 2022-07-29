@@ -11,12 +11,34 @@ import {
 // all of these styled components just for display/info when testing incomming info, can make new ones
 const DataContainer = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
 `;
+// grid-template-columns: 1fr 1fr;
+
+//container
 const IncomingDataContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+  padding: 1rem;
+  display: grid;
+  grid-gap: 1em;
+`;
+
+//quote
+const Quote = styled.div`
+  padding: 1rem;
+  border-radius: 0.3rem;
+`;
+
+const CurrQuote = styled.div`
+  padding: 1rem;
+  border-radius: 0.3rem;
+`;
+
+const QuoteError = styled.div`
+  background-color: #e9eef0;
+  border: 7px solid #ff1616;
+  color: black;
+  border-radius: 20px;
+  padding: 10px;
+  font-size: 1.15em;
 `;
 
 const ErrorsDispay = styled.div`
@@ -37,13 +59,25 @@ const ErrorItem = styled.h3`
   color: #ff1616;
 `;
 
-export const QueryResponse = styled.pre`
+const QueryResponse = styled.pre`
   background-color: #e9eef0;
 
   color: black;
 
   padding: 15px 15px;
-  font-size: 1.25em;
+  font-size: 1rem;
+`;
+
+const CurrentQueryResponse = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  max-width: 87.25vw;
+  background-color: #e9eef0;
+  border: 7px solid #04aa6d;
+  color: black;
+  border-radius: 20px;
+  padding: 15px 15px;
 `;
 
 function LoggerBox() {
@@ -83,11 +117,17 @@ function LoggerBox() {
       return (
         <>
           {String(item).slice(2, 7) === 'query' ? (
-            <>{item}</>
+            <Quote>
+              <p>{item}</p>
+            </Quote>
           ) : String(item).slice(2, 9) === 'message' ? (
-            <StyledErrorNoResponse>{item}</StyledErrorNoResponse>
+            <QuoteError>
+              <p>{item}</p>
+            </QuoteError>
           ) : (
-            <QueryResponse>{item}</QueryResponse>
+            <Quote>
+              <p>{item}</p>
+            </Quote>
           )}
           {/* <>{item}</>{' '} */}
           {/*should be a styled query container, onClick will trigger if response will show or hide */}
@@ -110,13 +150,21 @@ function LoggerBox() {
     <>
       <DataContainer>
         <IncomingDataContainer>
-          <QueryDisplay>{liveQuery}</QueryDisplay>
-          <ResponseDisplay>{liveResponse}</ResponseDisplay>
+          <CurrentQueryResponse>
+            <Quote>
+              <p>{liveQuery}</p>
+            </Quote>
+            <Quote>
+              <p>{liveResponse}</p>
+            </Quote>
+          </CurrentQueryResponse>
           {/* can make style component to hold the displayDataLog value */}
           <h3>data log:</h3>
           <p>{displayDataLog}</p>
         </IncomingDataContainer>
-        {/* <ErrorsDispay>{errorList}</ErrorsDispay> */}
+        {/* <ErrorsDispay>
+          <h3>THIS IS A TEST</h3>
+        </ErrorsDispay> */}
       </DataContainer>
     </>
   );
