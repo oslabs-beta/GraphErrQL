@@ -7,7 +7,7 @@ const RunQuery = () => {
   function handleClick(e) {
     e.preventDefault();
 
-    let APIURI = 'https://api.spacex.land/graphql/';
+    let APIURI = window.location.origin + '/graphql/';
 
     const handleRequest = () => {
       fetch(`${APIURI}`, {
