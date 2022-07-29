@@ -55,13 +55,13 @@ const RunQuery = () => {
 
   return (
     <div>
-        <BsPlayCircle
-          size='4em'
-          color= 'white'
-          id='submit'
-          type='submit'
-          onClick={handleClick}
-        />
+      <BsPlayCircle
+        size='4em'
+        color='white'
+        id='submit'
+        type='submit'
+        onClick={handleClick}
+      />
     </div>
   );
 }

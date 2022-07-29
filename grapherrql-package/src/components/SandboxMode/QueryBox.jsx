@@ -30,7 +30,6 @@ const QueryEditor = () => {
         options={{
           mode: 'graphql',
           lineNumbers: true,
-          placeholder: 'Enter GraphQL query or mutation here'
         }}
         onBeforeChange={onChange}
         onChange={(editor, metadata, value) => {
