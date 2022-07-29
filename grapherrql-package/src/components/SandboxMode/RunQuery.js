@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { GraphContext } from './Context';
+import { BsPlayCircle } from 'react-icons/bs';
 
 const RunQuery = () => {
   const [info, setInfo] = useContext(GraphContext);
@@ -9,7 +10,7 @@ const RunQuery = () => {
 
     let APIURI = window.location.origin + '/graphql/';
 
-    const handleRequest = () => {
+    const handleInput = () => {
       fetch(`${APIURI}`, {
         method: 'POST',
         headers: {
@@ -23,8 +24,7 @@ const RunQuery = () => {
         .then((res) => {
           setInfo(() => ({
             ...info,
-            response: res.data,
-            extensions: res.extensions,
+            response: res.data
           }));
         })
         .catch((err) => {
@@ -35,36 +35,35 @@ const RunQuery = () => {
         });
     };
 
-    // Function to handle invalid user input
-    const handleInvalid = () => {
+    const handleInvalidInput = () => {
       setInfo(() => ({
         ...info,
         response: 'Please start with query or mutation',
       }));
     };
 
-    // Validate Input
     if (
       info.body.substring(0, 5).toLowerCase() === 'query' ||
       info.body.substring(0, 8).toLowerCase() === 'mutation' ||
       info.body[0] === '{'
     ) {
-      handleRequest();
+      handleInput();
     } else {
-      handleInvalid();
+      handleInvalidInput();
     }
   }
 
   return (
-      <div>
-      <button
+    <div>
+        <BsPlayCircle
+          size='4em'
+          color= 'white'
           id='submit'
           type='submit'
           onClick={handleClick}
-      >
-      Submit Query
-      </button>
-       </div>)
+        />
+    </div>
+  );
 }
 
 export default RunQuery;
