@@ -12,6 +12,12 @@ const {
 } = require('graphql');
 const path = require('path');
 
+//TODO
+  //extension function
+  //customFormatErrorFn
+  //events handler
+  //addQueryMiddleware
+  //sendEventsToClient
 const app = express();
 
 app.use(cors());
