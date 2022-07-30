@@ -91,7 +91,6 @@ function LoggerBox() {
               </TextContainer>
             )}
           </CurrentQueryResponse>
-
           <h3>data log:</h3>
           <p>{displayDataLog}</p>
         </IncomingDataContainer>
