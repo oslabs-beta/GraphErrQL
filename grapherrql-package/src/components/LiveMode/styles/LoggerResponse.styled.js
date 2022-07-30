@@ -19,13 +19,16 @@ export const StyledErrorWithResponse = styled.pre`
   font-size: 1.25em;
 `;
 
-export const StyledSuccessNoResponse = styled.pre`
+export const StyledSuccessNoResponse = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  max-width: 87.25vw;
   background-color: #e9eef0;
-  border: 7px solid #078aa8;
+  border: 7px solid #5a79af;
   color: black;
   border-radius: 20px;
   padding: 15px 15px;
-  font-size: 1.25em;
 `;
 
 export const StyledSuccessWithResponse = styled.pre`
