@@ -3,7 +3,7 @@ import './App.css';
 import Header from './components/Header';
 import { GraphContextProvider } from './components/SandboxMode/Context';
 import { LiveContext } from './components/LiveMode/LiveContext';
-//test
+
 function App() {
   const [listening, setListening] = useState(false);
   const [liveQuery, setLiveQuery] = useState('Query');
