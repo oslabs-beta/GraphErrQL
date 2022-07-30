@@ -1,7 +1,7 @@
 const express = require('express');
 const { graphqlHTTP } = require('express-graphql');
 const cors = require('cors');
-const fs = require('fs');
+
 const {
   GraphQLSchema,
   GraphQLObjectType,
@@ -10,13 +10,13 @@ const {
   GraphQLInt,
   GraphQLNonNull,
 } = require('graphql');
-const path = require('path');
+
 const {
-  //need to make MW function for /grapherrql endpoint (serves react app and trigger events connection)
   grapherrql,
   eventsHandler,
+  serveGrapherrql,
 } = require('../../functions/index');
-
+const PORT = '3001';
 const app = express();
 
 app.use(cors());
@@ -148,20 +148,13 @@ const schema = new GraphQLSchema({
 });
 
 //GraphQL base endpoint. Middleware called before GraphQL processing to capture and forward the Query to GraphERRQL for LiveMode logging. The 'extensions' prop on GraphQL return statement captures and forwards the GraphQL response. Both cases utilize SSE connection setup by 'eventsHandler'
-app.use(
-  '/graphql',
-  grapherrql(graphqlHTTP, schema)
-);
+app.use('/graphql', grapherrql(graphqlHTTP, schema));
 
 //Setup SSE (Server-Sent-Events) endpoint. GraphERRQL will setup conn to this upon initial render, connection will persist.
 app.get('/events', eventsHandler);
-const HOST_APP_SSE_PATH = 'http://localhost:3001/events';
-
 //Referencing local files to serve to GraphERRQL. Deployment will see Host Apps referencing node-modules dynamically rather than looking for these files locally.
 app.use(express.static('../../build'));
-app.get('/grapherrql', function (req, res) {
-  let data = fs.readFileSync(path.resolve('../../build/index.html'), 'utf8');
-  res.send(data.replace('<param1_replace>', HOST_APP_SSE_PATH));
-});
+//serve up grapherrql GUI & trigger SSE connection when opening browser to /grapherrql endpoint
+app.get('/grapherrql', serveGrapherrql(PORT));
 
-app.listen(3001, () => console.log('Server Running on 3001'));
+app.listen(PORT, () => console.log(`Server Running on ${PORT}`));

@@ -1,7 +1,17 @@
+const fs = require('fs');
+const path = require('path');
 //Store GraphQL Queries as they arrive from HostApp client. Any stored will be sent to GraphERRQL clients when they come up.
 let SSE_Events = [];
 let SSE_Clients = [];
 
+
+const serveGrapherrql = (serverPort) => {
+  const eventsURI = `http://localhost:${serverPort}/events`;
+  return (req, res) => {
+    let data = fs.readFileSync(path.resolve('../../build/index.html'), 'utf8');
+    res.send(data.replace('<param1_replace>', eventsURI));
+  };
+};
 //Accept new SSE (Server-Sent-Events) connections from clients, makes them persistent via special HTTP headers. Sends new client all current queries upon startup. Subsequent queries will be added and forwarded by 'addQueryMiddleware'. Saves client info. Can server multiple clients simultaneously, but GraphERRQL is currently only one.
 const eventsHandler = (req, res, next) => {
   const headers = {
@@ -92,4 +102,5 @@ module.exports = {
   eventsHandler,
   customFormatErrorFn,
   extensions,
+  serveGrapherrql,
 };
