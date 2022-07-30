@@ -100,7 +100,5 @@ const grapherrql = (gqlHTTP, graphqlSchema) => {
 module.exports = {
   grapherrql,
   eventsHandler,
-  customFormatErrorFn,
-  extensions,
   serveGrapherrql,
 };
