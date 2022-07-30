@@ -1,13 +1,8 @@
-const express = require('express');
-// const { graphqlHTTP } = require('express-graphql');
-const path = require('path');
-const fs = require('fs');
-
-
-
+//Store GraphQL Queries as they arrive from HostApp client. Any stored will be sent to GraphERRQL clients when they come up.
 let SSE_Events = [];
 let SSE_Clients = [];
 
+//Accept new SSE (Server-Sent-Events) connections from clients, makes them persistent via special HTTP headers. Sends new client all current queries upon startup. Subsequent queries will be added and forwarded by 'addQueryMiddleware'. Saves client info. Can server multiple clients simultaneously, but GraphERRQL is currently only one.
 const eventsHandler = (req, res, next) => {
   const headers = {
     'Content-Type': 'text/event-stream',
@@ -32,33 +27,21 @@ const eventsHandler = (req, res, next) => {
   });
 };
 
-const testMW = (str) => {
-  return (req, res, next) => {
-    console.log(str);
-    return next();
-  };
-};
-
+//Send the provided new Query (or Query response) to all currently open SSE Clients
 const sendEventToClients = (newEvent) => {
   console.log('inside sendEventtoClient');
   SSE_Clients.forEach((client) =>
     client.res.write(`data: ${JSON.stringify(newEvent)}\n\n`)
   );
 };
-const addQueryMiddleware = (req, res, next) => {
-  const newQuery = req.body;
-  SSE_Events.push(newQuery);
-  sendEventToClients(newQuery);
-  console.log('inside addQueryMiddleware');
-  next();
-};
 
+//This attaches to the GraphQLHTTP server and runs AFTER Query is processed into result. We us it to store that result and forward it to SSE clients
 const extensions = ({ result }) => {
   console.log('result: ', result);
   SSE_Events.push(result);
   sendEventToClients(result);
 };
-
+//this is how we capture errors from graphqlHTTP and send them to grapherrql through SSE (the 'result' obj in graphqlHTTP remains undefined if an error is emmitted which is why we created functionality where we had access to the error obj being thrown from graphqlHTTP)
 const customFormatErrorFn = (error) => {
   console.log('inside customError');
   SSE_Events.push(error);
@@ -66,31 +49,18 @@ const customFormatErrorFn = (error) => {
   return error;
 };
 
-// const executeGQL = (req, res, next) => {
-//   return graphqlHTTP({
-//     schema: schema,
-//     graphiql: false,
-//     customFormatErrorFn: (error) => {
-//       console.log('inside customError');
-//       SSE_Events.push(error);
-//       sendEventToClients(error);
-//       return error;
-//     },
-//     extensions,
-//   });
-// };
-
-
-//error: Cannot use GraphQLSchema from another module or realm
-// keeping code for now - may revisit
-
-const grapherrql = (gqlHTTP, graphqlSchema ) => {
+const grapherrql = (gqlHTTP, graphqlSchema) => {
   console.log('inside MW');
-  // const { schema } = graphqlSchema;
-  const schema  = graphqlSchema;
+  const schema = graphqlSchema;
 
   const executeGQL = (req, res, next) => {
     console.log('inside execute GQL');
+    //this was the old addQueryMiddleware functionality:
+    //Called when '/graphql' receives new request from HostApp client, prior to GraphQL processing. Adds the query to those saved, then sends it to any open SSE clients.
+    const newQuery = req.body;
+    SSE_Events.push(newQuery);
+    sendEventToClients(newQuery);
+    console.log('inside addQueryMiddleware !!!');
 
     const executeFunc = (cb, ...args) => {
       cb(...args);
@@ -107,17 +77,11 @@ const grapherrql = (gqlHTTP, graphqlSchema ) => {
       },
       extensions,
     });
-    
-    executeFunc(
-      newGqlHTTP,
-      req,
-      res,
-      next
-    );
+
+    executeFunc(newGqlHTTP, req, res, next);
   };
 
   return async function grapherrqlMiddleware(req, res, next) {
-    // addQueryMiddleware(req, res, next)
     console.log('inside closure function');
     executeGQL(req, res, next);
   };
@@ -126,8 +90,6 @@ const grapherrql = (gqlHTTP, graphqlSchema ) => {
 module.exports = {
   grapherrql,
   eventsHandler,
-  testMW,
-  addQueryMiddleware,
   customFormatErrorFn,
   extensions,
 };
