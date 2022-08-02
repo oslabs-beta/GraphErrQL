@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import Header from './components/Header';
 import { GraphContextProvider } from './components/SandboxMode/Context';
@@ -32,19 +32,20 @@ function App() {
       console.log('listening for events from Host App SSE...');
       source.onmessage = (event) => {
         const parsedData = JSON.parse(event.data);
+        const regx = /\\n|/g;
         //discern data - query vs response
         if (parsedData.query) {
-          const str = JSON.stringify(parsedData);
+          const str = JSON.stringify(parsedData).replace(regx, '');
           setLiveQuery(str);
           setDataLog((prev: any) => [...prev, str]);
         }
         if (parsedData.data) {
-          const str = JSON.stringify(parsedData);
+          const str = JSON.stringify(parsedData).replace(regx, '');
           setLiveResponse(str);
           setDataLog((prev: any) => [...prev, str]);
         }
         if (parsedData.message) {
-          const str = JSON.stringify(parsedData);
+          const str = JSON.stringify(parsedData).replace(regx, '');
           setLiveResponse(str);
           setDataLog((prev: any) => [...prev, str]);
         }
