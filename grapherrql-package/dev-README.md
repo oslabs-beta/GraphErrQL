@@ -60,10 +60,10 @@ app.get('/grapherrql', function (req, res) {
 
 1. Navigate to descriptive feature branch from within **/grapherrql-package**
 2. Make desired feature changes
-3. Delete existing **/build** folder, generate new on with 'npm run build'
+3. Delete existing **/build** and **/package** folders, generate new ones with 'npm run build', then 'npm run builduipackage'
 4. Test changes with local Host App, capturing screenshots of updated functionality/styling and lack of errors if all works
 5. On success, navigate to **/grapherrql-package/package.json** and update 'version' (either minor or major number change). Version **must** be incremented to allow for package update.
-6. Save, commit, and run "npm publish" from within **/grapherrql-package**. Ensure publishing is successful and confirm version change on npm.
+6. Save, commit, and run "npm publish" from within **/grapherrql-package/package**. Ensure publishing is successful and confirm version change on npm.
 7. Checkout /dev, 'git fetch --prune', then merge latest code with your feature branch.
 8. After resolving any merge conflicts, push from your feature branch to origin/<feature_branch>
 9. Submit PR, obtain approval, land, profit!
