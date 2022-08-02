@@ -1,0 +1,29 @@
+{
+  "name": "grapherrql-express",
+  "version": "0.0.2",
+  "description": "graphql Host App Utility Functions",
+  "main": "index.js",
+  "scripts": {},
+  "eslintConfig": {
+    "extends": []
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {},
+  "keywords": [
+    "graphql"
+  ],
+  "author": "pandaWhale",
+  "license": "MIT",
+  "dependencies": {}
+}
