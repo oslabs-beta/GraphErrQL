@@ -1,4 +1,5 @@
 import { StyledHeaderItemContainer } from './LiveMode/styles/HeaderItemContainer.styled';
+import { BlinkingComponent } from './LiveMode/styles/AnimatedComponent.styled';
 import { BsToggle2Off, BsToggle2On, BsPlayCircle } from 'react-icons/bs';
 
 
@@ -10,11 +11,13 @@ function HeaderItemContainer({ liveMode, handleToggleClick }) {
         <StyledHeaderItemContainer>
           <p >Live Mode</p>
           {liveMode ? (
-            <BsToggle2On
-              size='4em'
-              color='white'
-              onClick={() => handleToggleClick()}
-            />
+            <BlinkingComponent>
+              <BsToggle2On
+                size='4em'
+                color='red'
+                onClick={() => handleToggleClick()}
+              />
+            </BlinkingComponent>
           ) : (
             <BsToggle2Off
               size='4em'
