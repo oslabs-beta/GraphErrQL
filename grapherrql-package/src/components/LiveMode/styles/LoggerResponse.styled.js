@@ -21,8 +21,7 @@ export const IncomingDataContainer = styled.div`
   grid-gap: 1em;
 `;
 
-export const TextContainer = styled.div`
-`;
+export const TextContainer = styled.div``;
 
 export const BottomLogContainer = styled.div`
   border: 7px solid #078aa8;
@@ -43,7 +42,18 @@ export const ErrorTextContainer = styled.div`
   font-size: 1.15em;
 `;
 
-export const CurrentQueryResponse = styled.div`
+export const CurrentLog = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  max-width: 87.25vw;
+  background-color: #e9eef0;
+  border: 7px solid #078aa8;
+  color: black;
+  padding: 15px 15px;
+`;
+
+export const LogContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
