@@ -10,22 +10,6 @@ function App() {
   const [liveResponse, setLiveResponse] = useState('Response');
   const [dataLog, setDataLog] = useState<any>([]);
 
-  // const captureData = (data: any) => {
-  //   let isQuery = true;
-  //   console.log('isQuery is : ', isQuery);
-  //   const queryVsRes = () => {
-  //     if (!isQuery) {
-  //       setLiveResponse('RESPONSE');
-  //       isQuery = true;
-  //     } else {
-  //       setLiveQuery('QUERY');
-  //       isQuery = false;
-  //     }
-  //   };
-  //   queryVsRes();
-  // };
-  // let isQuery = true;
-
   useEffect(() => {
     if (!listening) {
       const source = new EventSource(document.cookie.slice(10, -1));
@@ -35,23 +19,28 @@ function App() {
         const regx = /\\n|/g;
         //discern data - query vs response
         if (parsedData.query) {
-          const str = JSON.stringify(parsedData).replace(regx, '');
+          let str = JSON.stringify(parsedData.timestamp).concat(
+            JSON.stringify(parsedData.query).replace(regx, '')
+          );
           setLiveQuery(str);
-          setDataLog((prev: any) => [...prev, str]);
+          setDataLog((prev: any) => [...prev, str.slice(13)]);
         }
         if (parsedData.data) {
-          const str = JSON.stringify(parsedData).replace(regx, '');
+          const str = JSON.stringify(parsedData.timestamp).concat(
+            JSON.stringify(parsedData.data).replace(regx, '')
+          );
           setLiveResponse(str);
-          setDataLog((prev: any) => [...prev, str]);
+          setDataLog((prev: any) => [...prev, str.slice(13)]);
         }
         if (parsedData.message) {
-          const str = JSON.stringify(parsedData).replace(regx, '');
+          const str = JSON.stringify(parsedData.timestamp).concat(
+            JSON.stringify(parsedData.message).replace(regx, '')
+          );
           setLiveResponse(str);
-          setDataLog((prev: any) => [...prev, str]);
+          setDataLog((prev: any) => [...prev, str.slice(13)]);
         }
         //graphql does not send a resp if an error - will need to throw and catch it
         console.log(`RECEIVED SSE Event: ${JSON.stringify(parsedData)}`);
-        console.log('DATA LOGGER: ', dataLog);
       };
     }
   }, [listening]);
