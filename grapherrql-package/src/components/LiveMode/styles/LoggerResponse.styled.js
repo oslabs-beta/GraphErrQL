@@ -6,9 +6,9 @@ export const StyledSuccessNoResponse = styled.div`
   flex-wrap: wrap;
   max-width: 87.25vw;
   background-color: #e9eef0;
-  border: 7px solid #5a79af;
+  // border: 7px solid #5a79af;
   color: black;
-  border-radius: 20px;
+  // border-radius: 20px;
   padding: 15px 15px;
 `;
 export const DataContainer = styled.div`
@@ -22,7 +22,16 @@ export const IncomingDataContainer = styled.div`
 `;
 
 export const TextContainer = styled.div`
-  border-radius: 0.3rem;
+`;
+
+export const BottomLogContainer = styled.div`
+  border: 7px solid #078aa8;
+  border-top: 0px;
+`;
+
+export const TopLogContainer = styled.div`
+  border: 7px solid #078aa8;
+  border-bottom: 0px;
 `;
 
 export const ErrorTextContainer = styled.div`
@@ -40,8 +49,7 @@ export const CurrentQueryResponse = styled.div`
   flex-wrap: wrap;
   max-width: 87.25vw;
   background-color: #e9eef0;
-  border: 7px solid #5a79af;
+  border: 7px solid #078aa8;
   color: black;
-  border-radius: 20px;
   padding: 15px 15px;
 `;
