@@ -1,6 +1,6 @@
 {
   "name": "grapherrql",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "graphql IDE",
   "main": "./dist/index.ts",
   "types": "./dist/index.d.ts",

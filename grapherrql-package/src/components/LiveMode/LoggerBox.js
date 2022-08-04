@@ -27,7 +27,7 @@ function LoggerBox() {
 
   let logQueue = [];
   const displayDataLog = dataLog
-    .slice(0, -1)
+    .slice(0, -2)
     .reverse()
     .map((qR) => {
       logQueue.push(qR);
@@ -41,6 +41,22 @@ function LoggerBox() {
         return (
           <div>
             <LogContainer>
+              {String(items[1]).slice(15, 20) === 'query' ? (
+                <TextContainer>
+                  <div>
+                    <p>{timestamp}</p>
+                    <p>{items[1].slice(13)}</p>
+                  </div>
+                </TextContainer>
+              ) : String(items[1]).slice(15, 22) === 'message' ? (
+                <ErrorTextContainer>
+                  <p>{items[1].slice(13)}</p>
+                </ErrorTextContainer>
+              ) : (
+                <TextContainer>
+                  <p>{items[1].slice(13)}</p>
+                </TextContainer>
+              )}
               {String(items[0]).slice(15, 20) === 'query' ? (
                 <TextContainer>
                   <div>
@@ -57,22 +73,6 @@ function LoggerBox() {
                   <p>{items[0].slice(13)}</p>
                 </TextContainer>
               )}
-              {String(items[1]).slice(15, 20) === 'query' ? (
-                <TextContainer>
-                  <div>
-                    <p>{timestamp}</p>
-                    <p>{items[0].slice(13)}</p>
-                  </div>
-                </TextContainer>
-              ) : String(items[1]).slice(15, 22) === 'message' ? (
-                <ErrorTextContainer>
-                  <p>{items[0].slice(13)}</p>
-                </ErrorTextContainer>
-              ) : (
-                <TextContainer>
-                  <p>{items[1].slice(13)}</p>
-                </TextContainer>
-              )}
             </LogContainer>
             <br></br>
           </div>
@@ -83,7 +83,7 @@ function LoggerBox() {
     <>
       <DataContainer>
         <IncomingDataContainer>
-          <h3>Latest Log</h3>
+          <h3>Latest Log from {document.cookie.slice(10, -7)}</h3>
           <CurrentLog>
             <TextContainer>
               {liveResponse.length > 8 ? (
