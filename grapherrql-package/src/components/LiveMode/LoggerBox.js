@@ -8,6 +8,7 @@ import {
   TextContainer,
   ErrorTextContainer,
   CurrentQueryResponse,
+  LogContainer,
 } from './styles/LoggerResponse.styled';
 
 function LoggerBox() {
@@ -46,6 +47,12 @@ function LoggerBox() {
     .reverse()
     .map((qR) => {
       const queryResponse = qR.map((item) => {
+        console.log(`ITEM: ${JSON.stringify(item)}`);
+        console.log(`DATE: ${parseInt(String(item).slice(0, 13))}`);
+        const timestamp = new Date(
+          parseInt(String(item).slice(0, 13))
+        ).toString();
+
         logCounter++;
         //for this return, if string is query give it a style component that is clickable
         //if string is success response (data) then give it style component with success border - this container appears if query is clicked
@@ -53,25 +60,23 @@ function LoggerBox() {
         //can we discern in the query if it is an error? or is there a way to check if query's child component is an error and give it a border based on that?
         return (
           <>
-            {String(item).slice(2, 7) === 'query' ? (
+            {String(item).slice(15, 20) === 'query' ? (
               <TextContainer>
-                {logCounter / 2 === 0 ? (
-                  <div>
-                    <p>{item}</p>
-                    <hr></hr>
-                  </div>
-                ) : (
-                  <p>{item}</p>
-                )}
+                <div>
+                  <p>{timestamp}</p>
+                  <p>{item.slice(13)}</p>
+                </div>
               </TextContainer>
-            ) : String(item).slice(2, 9) === 'message' ? (
+            ) : String(item).slice(15, 22) === 'message' ? (
               <ErrorTextContainer>
-                <p>{item}</p>
+                <p>{item.slice(13)}</p>
+                <br></br>
                 <hr></hr>
               </ErrorTextContainer>
             ) : (
               <TextContainer>
-                <p>{item}</p>
+                <p>{item.slice(13)}</p>
+                <br></br>
                 <hr></hr>
               </TextContainer>
             )}
