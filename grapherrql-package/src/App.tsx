@@ -17,30 +17,27 @@ function App() {
       source.onmessage = (event) => {
         const parsedData = JSON.parse(event.data);
         const regx = /\\n|/g;
-        //discern data - query vs response
         if (parsedData.query) {
           let str = JSON.stringify(parsedData.timestamp).concat(
             JSON.stringify(parsedData.query).replace(regx, '')
           );
           setLiveQuery(str);
-          setDataLog((prev: any) => [...prev, str.slice(13)]);
+          setDataLog((prev: any) => [...prev, str]);
         }
         if (parsedData.data) {
           const str = JSON.stringify(parsedData.timestamp).concat(
             JSON.stringify(parsedData.data).replace(regx, '')
           );
           setLiveResponse(str);
-          setDataLog((prev: any) => [...prev, str.slice(13)]);
+          setDataLog((prev: any) => [...prev, str]);
         }
         if (parsedData.message) {
           const str = JSON.stringify(parsedData.timestamp).concat(
             JSON.stringify(parsedData.message).replace(regx, '')
           );
           setLiveResponse(str);
-          setDataLog((prev: any) => [...prev, str.slice(13)]);
+          setDataLog((prev: any) => [...prev, str]);
         }
-        //graphql does not send a resp if an error - will need to throw and catch it
-        console.log(`RECEIVED SSE Event: ${JSON.stringify(parsedData)}`);
       };
     }
   }, [listening]);
