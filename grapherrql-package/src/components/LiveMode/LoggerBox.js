@@ -2,101 +2,114 @@ import { useContext } from 'react';
 
 import { LiveContext } from '../LiveMode/LiveContext';
 import {
-  StyledSuccessNoResponse,
   DataContainer,
   IncomingDataContainer,
   TextContainer,
   ErrorTextContainer,
-  CurrentQueryResponse,
+  CurrentLog,
+  LogContainer,
 } from './styles/LoggerResponse.styled';
 
 function LoggerBox() {
   const { liveQuery, liveResponse, dataLog } = useContext(LiveContext);
 
-  // TODO
-  // const errorList = [];
+  const regexRemove = /"/g;
+  const regexColon = /:/g;
 
-  // if (liveResponse.errors) {
-  //   let i = 0;
-  //   liveResponse.errors.forEach((error) => {
-  //     errorList.push(<ErrorItem key={i}>{JSON.stringify(error)}</ErrorItem>);
-  //   });
-  // }
-  const groupQueryResponse = (arr) => {
-    const result = [];
-    let i = 0;
-    while (i < arr.length) {
-      const innerArray = [];
-      innerArray.push(arr[i]);
-      ++i;
-      innerArray.push(arr[i]);
-      result.push(innerArray);
-      i++;
-    }
-    return result;
-  };
+  const liveQueryParsed = liveQuery
+    .slice(13)
+    .replace(regexRemove, ``)
+    .replace(regexColon, ` `);
+  const liveResponseParsed = liveResponse
+    .slice(13)
+    .replace(regexRemove, ``)
+    .replace(regexColon, ` `);
 
-  const groupedQueryResponses = groupQueryResponse(dataLog);
-
-  const displayDataLog = groupedQueryResponses.map((qR) => {
-    const queryResponse = qR.map((item) => {
-      //for this return, if string is query give it a style component that is clickable
-      //if string is success response (data) then give it style component with success border - this container appears if query is clicked
-      // if the response string is an error (message) then give it the style component with error border
-      //can we discern in the query if it is an error? or is there a way to check if query's child component is an error and give it a border based on that?
-      return (
-        <>
-          {String(item).slice(2, 7) === 'query' ? (
-            <TextContainer>
-              <p>{item}</p>
-            </TextContainer>
-          ) : String(item).slice(2, 9) === 'message' ? (
-            <ErrorTextContainer>
-              <p>{item}</p>
-            </ErrorTextContainer>
-          ) : (
-            <TextContainer>
-              <p>{item}</p>
-            </TextContainer>
-          )}
-          {/* <>{item}</>{' '} */}
-          {/*should be a styled query container, onClick will trigger if response will show or hide */}
-          {/* <div>
-           ************** */}
-          {/*should be a styled response container with state for show: true or false */}
-          {/* </div> */}
-        </>
-      );
+  let logQueue = [];
+  const displayDataLog = dataLog
+    .slice(0, -1)
+    .reverse()
+    .map((qR) => {
+      logQueue.push(qR);
+      console.log(`LOGQUEUE UPDATE: ${JSON.stringify(logQueue)}`);
+      if (logQueue.length === 2) {
+        const items = logQueue;
+        logQueue = [];
+        const timestamp = new Date(
+          parseInt(String(items[0]).slice(0, 13))
+        ).toString();
+        return (
+          <div>
+            <LogContainer>
+              {String(items[0]).slice(15, 20) === 'query' ? (
+                <TextContainer>
+                  <div>
+                    <p>{timestamp}</p>
+                    <p>{items[0].slice(13)}</p>
+                  </div>
+                </TextContainer>
+              ) : String(items[0]).slice(15, 22) === 'message' ? (
+                <ErrorTextContainer>
+                  <p>{items[0].slice(13)}</p>
+                </ErrorTextContainer>
+              ) : (
+                <TextContainer>
+                  <p>{items[0].slice(13)}</p>
+                </TextContainer>
+              )}
+              {String(items[1]).slice(15, 20) === 'query' ? (
+                <TextContainer>
+                  <div>
+                    <p>{timestamp}</p>
+                    <p>{items[0].slice(13)}</p>
+                  </div>
+                </TextContainer>
+              ) : String(items[1]).slice(15, 22) === 'message' ? (
+                <ErrorTextContainer>
+                  <p>{items[0].slice(13)}</p>
+                </ErrorTextContainer>
+              ) : (
+                <TextContainer>
+                  <p>{items[1].slice(13)}</p>
+                </TextContainer>
+              )}
+            </LogContainer>
+            <br></br>
+          </div>
+        );
+      } else return <></>;
     });
-    return (
-      <>
-        <div></div>
-        <StyledSuccessNoResponse>{queryResponse}</StyledSuccessNoResponse>
-      </>
-    );
-  });
   return (
     <>
       <DataContainer>
         <IncomingDataContainer>
-          <CurrentQueryResponse>
+          <h3>Latest Log</h3>
+          <CurrentLog>
             <TextContainer>
-              <p>{liveQuery}</p>
+              {liveResponse.length > 8 ? (
+                <p>
+                  Query Processing Time:{' '}
+                  {(liveResponse.slice(0, 13) - liveQuery.slice(0, 13)) / 1000}{' '}
+                  seconds
+                </p>
+              ) : (
+                <p>Waiting for Events from Host App...</p>
+              )}
             </TextContainer>
-            {String(liveResponse).slice(2, 9) === 'message' ? (
-              <ErrorTextContainer>{liveResponse}</ErrorTextContainer>
+            <TextContainer>
+              <p>{liveQueryParsed}</p>
+            </TextContainer>
+            {String(liveResponseParsed).slice(1, 8) === 'message' ? (
+              <ErrorTextContainer>{liveResponse.slice(13)}</ErrorTextContainer>
             ) : (
               <TextContainer>
-                <p>{liveResponse}</p>
+                <p>{liveResponseParsed}</p>
               </TextContainer>
             )}
-          </CurrentQueryResponse>
-          <h3>data log:</h3>
+          </CurrentLog>
+          <h3>Past Logs</h3>
           <p>{displayDataLog}</p>
         </IncomingDataContainer>
-        {/* <ErrorsDispay>
-          <h3>THIS IS A TEST</h3>
-        </ErrorsDispay> */}
       </DataContainer>
     </>
   );

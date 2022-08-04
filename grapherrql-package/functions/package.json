@@ -1,6 +1,6 @@
 {
   "name": "grapherrql-express",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "graphql Host App Utility Functions",
   "main": "index.js",
   "scripts": {},

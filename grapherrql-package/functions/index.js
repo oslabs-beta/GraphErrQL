@@ -21,7 +21,6 @@ const eventsHandler = (req, res, next) => {
   };
   res.writeHead(200, headers);
   const data = `data: ${JSON.stringify(SSE_Events)}\n\n`;
-  console.log(`SENDING DATA TO NEW CLIENT: ${data}`);
   res.write(data);
 
   const clientId = Date.now();
@@ -29,7 +28,6 @@ const eventsHandler = (req, res, next) => {
     id: clientId,
     res,
   };
-  console.log(`CLIENT ADDED`);
   SSE_Clients.push(newClient);
   req.on('close', () => {
     console.log(`${clientId} | CONN CLOSED`);
@@ -39,7 +37,6 @@ const eventsHandler = (req, res, next) => {
 
 //Send the provided new Query (or Query response) to all currently open SSE Clients
 const sendEventToClients = (newEvent) => {
-  console.log('inside sendEventtoClient');
   SSE_Clients.forEach((client) =>
     client.res.write(`data: ${JSON.stringify(newEvent)}\n\n`)
   );
@@ -47,30 +44,26 @@ const sendEventToClients = (newEvent) => {
 
 //This attaches to the GraphQLHTTP server and runs AFTER Query is processed into result. We us it to store that result and forward it to SSE clients
 const extensions = ({ result }) => {
-  console.log('result: ', result);
-  SSE_Events.push(result);
-  sendEventToClients(result);
+  const newEvent = {'timestamp': Date.now(), 'data': result};
+  SSE_Events.push(newEvent);
+  sendEventToClients(newEvent);
 };
 //this is how we capture errors from graphqlHTTP and send them to grapherrql through SSE (the 'result' obj in graphqlHTTP remains undefined if an error is emmitted which is why we created functionality where we had access to the error obj being thrown from graphqlHTTP)
 const customFormatErrorFn = (error) => {
-  console.log('inside customError');
   SSE_Events.push(error);
   sendEventToClients(error);
   return error;
 };
 
 const grapherrql = (gqlHTTP, graphqlSchema) => {
-  console.log('inside MW');
   const schema = graphqlSchema;
 
   const executeGQL = (req, res, next) => {
-    console.log('inside execute GQL');
-    //this was the old addQueryMiddleware functionality:
     //Called when '/graphql' receives new request from HostApp client, prior to GraphQL processing. Adds the query to those saved, then sends it to any open SSE clients.
     const newQuery = req.body;
-    SSE_Events.push(newQuery);
-    sendEventToClients(newQuery);
-    console.log('inside addQueryMiddleware !!!');
+    const newEvent = {'timestamp': Date.now(), 'query': newQuery};
+    SSE_Events.push(newEvent);
+    sendEventToClients(newEvent);
 
     const executeFunc = (cb, ...args) => {
       cb(...args);
@@ -80,9 +73,9 @@ const grapherrql = (gqlHTTP, graphqlSchema) => {
       schema: schema,
       graphiql: false,
       customFormatErrorFn: (error) => {
-        console.log('inside customError');
-        SSE_Events.push(error);
-        sendEventToClients(error);
+        const newEvent = { 'timestamp': Date.now(), 'message': error };
+        SSE_Events.push(newEvent);
+        sendEventToClients(newEvent);
         return error;
       },
       extensions,
@@ -92,7 +85,6 @@ const grapherrql = (gqlHTTP, graphqlSchema) => {
   };
 
   return async function grapherrqlMiddleware(req, res, next) {
-    console.log('inside closure function');
     executeGQL(req, res, next);
   };
 };
