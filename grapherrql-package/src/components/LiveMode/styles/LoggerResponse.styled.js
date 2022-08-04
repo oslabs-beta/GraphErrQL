@@ -51,6 +51,7 @@ export const CurrentLog = styled.div`
   border: 7px solid #078aa8;
   color: black;
   padding: 15px 15px;
+  box-shadow: 10px 10px black;
 `;
 
 export const LogContainer = styled.div`
@@ -62,4 +63,5 @@ export const LogContainer = styled.div`
   border: 7px solid #078aa8;
   color: black;
   padding: 15px 15px;
+  box-shadow: 10px 10px black;
 `;
