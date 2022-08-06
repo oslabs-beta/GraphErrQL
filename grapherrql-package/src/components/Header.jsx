@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import LoggerBox from './LiveMode/LoggerBox';
-import logo from '../images/GraphErrlogo.svg';
 import HeaderGif from '../images/HeaderGif.gif';
 import HeaderRightPic from '../images/HeaderRightPic.png'
 import { Logo, StyledHeader, HeaderRight } from './LiveMode/styles/Header.styled';
