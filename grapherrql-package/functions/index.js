@@ -4,7 +4,6 @@ const path = require('path');
 let SSE_Events = [];
 let SSE_Clients = [];
 
-
 const serveGrapherrql = (serverPort) => {
   const eventsURI = `http://localhost:${serverPort}/events`;
   return (req, res) => {
@@ -44,14 +43,15 @@ const sendEventToClients = (newEvent) => {
 
 //This attaches to the GraphQLHTTP server and runs AFTER Query is processed into result. We us it to store that result and forward it to SSE clients
 const extensions = ({ result }) => {
-  const newEvent = {'timestamp': Date.now(), 'data': result};
+  const newEvent = { timestamp: Date.now(), data: result };
   SSE_Events.push(newEvent);
   sendEventToClients(newEvent);
 };
 //this is how we capture errors from graphqlHTTP and send them to grapherrql through SSE (the 'result' obj in graphqlHTTP remains undefined if an error is emmitted which is why we created functionality where we had access to the error obj being thrown from graphqlHTTP)
 const customFormatErrorFn = (error) => {
-  SSE_Events.push(error);
-  sendEventToClients(error);
+  const newEvent = { timestamp: Date.now(), message: error };
+  SSE_Events.push(newEvent);
+  sendEventToClients(newEvent);
   return error;
 };
 
@@ -61,7 +61,7 @@ const grapherrql = (gqlHTTP, graphqlSchema) => {
   const executeGQL = (req, res, next) => {
     //Called when '/graphql' receives new request from HostApp client, prior to GraphQL processing. Adds the query to those saved, then sends it to any open SSE clients.
     const newQuery = req.body;
-    const newEvent = {'timestamp': Date.now(), 'query': newQuery};
+    const newEvent = { timestamp: Date.now(), query: newQuery };
     SSE_Events.push(newEvent);
     sendEventToClients(newEvent);
 
@@ -72,12 +72,7 @@ const grapherrql = (gqlHTTP, graphqlSchema) => {
     const newGqlHTTP = gqlHTTP({
       schema: schema,
       graphiql: false,
-      customFormatErrorFn: (error) => {
-        const newEvent = { 'timestamp': Date.now(), 'message': error };
-        SSE_Events.push(newEvent);
-        sendEventToClients(newEvent);
-        return error;
-      },
+      customFormatErrorFn,
       extensions,
     });
 
