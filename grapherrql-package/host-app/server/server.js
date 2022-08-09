@@ -158,3 +158,6 @@ app.use(express.static('../../build'));
 app.get('/grapherrql', serveGrapherrql(PORT));
 
 app.listen(PORT, () => console.log(`Server Running on ${PORT}`));
+
+
+//   '../../build/index.html'
