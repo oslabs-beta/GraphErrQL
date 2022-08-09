@@ -36,7 +36,13 @@
     "@types/fs-extra": "^9.0.13"
   },
   "keywords": [
-    "graphql"
+    "grapherrql",
+    "grapherrql-express",
+    "graphql error handling",
+    "graphql error tool",
+    "graphql",
+    "graphql express dev tool",
+    "graphql-express"
   ],
   "author": "pandaWhale",
   "license": "MIT",
