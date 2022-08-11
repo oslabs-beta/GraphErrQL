@@ -1,6 +1,6 @@
 {
   "name": "grapherrql-express",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "graphql Host App Utility Functions",
   "main": "index.js",
   "scripts": {},
@@ -21,7 +21,13 @@
   },
   "devDependencies": {},
   "keywords": [
-    "graphql"
+    "grapherrql",
+    "grapherrql-express",
+    "graphql error handling",
+    "graphql error tool",
+    "graphql",
+    "graphql express dev tool",
+    "graphql-express"
   ],
   "author": "pandaWhale",
   "license": "MIT",

@@ -1,13 +1,13 @@
 const fs = require('fs');
-const path = require('path');
 //Store GraphQL Queries as they arrive from HostApp client. Any stored will be sent to GraphERRQL clients when they come up.
 let SSE_Events = [];
 let SSE_Clients = [];
 
-const serveGrapherrql = (serverPort) => {
+
+const serveGrapherrql = (serverPort, defaultFilePath) => {
   const eventsURI = `http://localhost:${serverPort}/events`;
   return (req, res) => {
-    let data = fs.readFileSync(path.resolve('../../build/index.html'), 'utf8');
+    let data = fs.readFileSync(defaultFilePath, 'utf8');
     res.send(data.replace('<param1_replace>', eventsURI));
   };
 };
