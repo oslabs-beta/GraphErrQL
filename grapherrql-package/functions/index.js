@@ -3,6 +3,7 @@ const fs = require('fs');
 let SSE_Events = [];
 let SSE_Clients = [];
 
+
 const serveGrapherrql = (serverPort, defaultFilePath) => {
   const eventsURI = `http://localhost:${serverPort}/events`;
   return (req, res) => {
